@@ -38,6 +38,34 @@ class _CoursesPageState extends State<CoursesPage> {
   }
 
   Widget _buildRow(Course course) {
-    return Text(course.name);
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ListTile(
+        tileColor: Colors.green[50],
+        contentPadding: const EdgeInsets.all(16.0),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(16.0),
+          ),
+        ),
+        title: Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: Text(
+            course.name,
+            style: TextStyle(
+              color: Colors.green[900],
+              fontSize: 16.0,
+            ),
+          ),
+        ),
+        subtitle: Padding(
+          padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+          child: Text(course.domainString),
+        ),
+        trailing: ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
+            child: Image.network(course.artworkUrl)),
+      ),
+    );
   }
 }
