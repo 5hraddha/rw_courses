@@ -18,10 +18,14 @@ class _CoursesPageState extends State<CoursesPage> {
     return FutureBuilder<List<Course>>(
       future: _controller.fetchCourses(Constants.allFilter),
       builder: (context, snapshot) {
-        if (snapshot.data == null) {
-          return const Center(child: CircularProgressIndicator());
+        final courses = snapshot.data;
+        if (snapshot.hasData) {
+          return Text(courses.toString());
         }
-        return const Text('RW Courses');
+        if (snapshot.hasError) {
+          return const Text('Uh!Oh! Some error occured.');
+        }
+        return const Center(child: CircularProgressIndicator());
       },
     );
   }
