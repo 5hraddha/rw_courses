@@ -21,7 +21,13 @@ class _CoursesPageState extends State<CoursesPage> {
       builder: (context, snapshot) {
         final courses = snapshot.data;
         if (snapshot.hasData) {
-          return Text(courses.toString());
+          return ListView.builder(
+            padding: const EdgeInsets.all(16.0),
+            itemCount: courses!.length,
+            itemBuilder: (BuildContext context, int index) {
+              return _buildRow(courses[index]);
+            },
+          );
         }
         if (snapshot.hasError) {
           return const Text('Uh!Oh! Some error occured.');
@@ -29,5 +35,9 @@ class _CoursesPageState extends State<CoursesPage> {
         return const Center(child: CircularProgressIndicator());
       },
     );
+  }
+
+  Widget _buildRow(Course course) {
+    return Text(course.name);
   }
 }
