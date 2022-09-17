@@ -63,9 +63,13 @@ class _CoursesPageState extends State<CoursesPage> {
           padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
           child: Text(course.domainString),
         ),
-        trailing: ClipRRect(
-          borderRadius: BorderRadius.circular(8.0),
-          child: Image.network(course.artworkUrl),
+        trailing: Hero(
+          tag: 'courseArtwork-${course.courseId}',
+          transitionOnUserGestures: true,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
+            child: Image.network(course.artworkUrl),
+          ),
         ),
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) {

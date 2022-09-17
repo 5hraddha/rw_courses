@@ -48,15 +48,18 @@ class CourseDetails extends StatelessWidget {
   }
 
   Widget _buildBanner() {
-    return ImageContainer(
-      height: 200,
-      url: course.artworkUrl,
+    return Hero(
+      tag: 'courseArtwork-${course.courseId}',
+      child: ImageContainer(
+        height: 200,
+        url: course.artworkUrl,
+      ),
     );
   }
 
   Widget _buildMain(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -86,7 +89,11 @@ class CourseDetails extends StatelessWidget {
     const style = TextStyle(fontSize: 16.0);
 
     return Padding(
-      padding: const EdgeInsets.only(left: 10),
+      padding: const EdgeInsets.only(
+        left: 16.0,
+        right: 16.0,
+        bottom: 16.0,
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
