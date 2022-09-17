@@ -3,6 +3,7 @@ import '../../constants.dart';
 import '../../model/course.dart';
 import '../../repository/course_repository.dart';
 import './courses_controller.dart';
+import '../course_details/course_details_page.dart';
 
 class CoursesPage extends StatefulWidget {
   const CoursesPage({Key? key}) : super(key: key);
@@ -63,8 +64,14 @@ class _CoursesPageState extends State<CoursesPage> {
           child: Text(course.domainString),
         ),
         trailing: ClipRRect(
-            borderRadius: BorderRadius.circular(8.0),
-            child: Image.network(course.artworkUrl)),
+          borderRadius: BorderRadius.circular(8.0),
+          child: Image.network(course.artworkUrl),
+        ),
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+            return CourseDetails(course: course);
+          }));
+        },
       ),
     );
   }
