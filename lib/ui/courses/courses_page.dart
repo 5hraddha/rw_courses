@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../../constants.dart';
 import '../../model/course.dart';
 import '../../repository/course_repository.dart';
 import './courses_controller.dart';
 import '../course_details/course_details_page.dart';
+import '../../state/filter_state_container.dart';
 
 class CoursesPage extends StatefulWidget {
   const CoursesPage({Key? key}) : super(key: key);
@@ -15,35 +14,32 @@ class CoursesPage extends StatefulWidget {
 
 class _CoursesPageState extends State<CoursesPage> {
   final _controller = CourseController(CourseRepository());
-  int _filterValue = Constants.allFilter;
+  late FilterState state;
 
   @override
-  void initState() {
-    super.initState();
-    _loadRadioValue();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    state = FilterStateContainer.of(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Course>>(
-      future: _controller.fetchCourses(_filterValue),
-      builder: (context, snapshot) {
-        final courses = snapshot.data;
-        if (snapshot.hasData) {
+        future: _controller.fetchCourses(state.filterValue),
+        builder: (context, snapshot) {
+          final courses = snapshot.data;
+          if (courses == null ||
+              (snapshot.connectionState != ConnectionState.done)) {
+            return const Center(child: CircularProgressIndicator());
+          }
           return ListView.builder(
             padding: const EdgeInsets.all(16.0),
-            itemCount: courses!.length,
+            itemCount: courses.length,
             itemBuilder: (BuildContext context, int index) {
               return _buildRow(courses[index]);
             },
           );
-        }
-        if (snapshot.hasError) {
-          return const Text('Uh!Oh! Some error occured.');
-        }
-        return const Center(child: CircularProgressIndicator());
-      },
-    );
+        });
   }
 
   Widget _buildRow(Course course) {
@@ -86,12 +82,5 @@ class _CoursesPageState extends State<CoursesPage> {
         },
       ),
     );
-  }
-
-  void _loadRadioValue() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _filterValue = prefs.getInt(Constants.filterKey) ?? 0;
-    });
   }
 }
