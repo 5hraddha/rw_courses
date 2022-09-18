@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../constants.dart';
 import '../../model/course.dart';
 import '../../repository/course_repository.dart';
@@ -14,11 +15,18 @@ class CoursesPage extends StatefulWidget {
 
 class _CoursesPageState extends State<CoursesPage> {
   final _controller = CourseController(CourseRepository());
+  int _filterValue = Constants.allFilter;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadRadioValue();
+  }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Course>>(
-      future: _controller.fetchCourses(Constants.allFilter),
+      future: _controller.fetchCourses(_filterValue),
       builder: (context, snapshot) {
         final courses = snapshot.data;
         if (snapshot.hasData) {
@@ -78,5 +86,12 @@ class _CoursesPageState extends State<CoursesPage> {
         },
       ),
     );
+  }
+
+  void _loadRadioValue() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _filterValue = prefs.getInt(Constants.filterKey) ?? 0;
+    });
   }
 }
