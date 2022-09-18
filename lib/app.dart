@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'strings.dart';
 import 'ui/courses/courses_page.dart';
 import 'ui/filter/filter_page.dart';
@@ -9,6 +10,12 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //Lock the screen orientation
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+
     return FilterStateContainer(
       child: MaterialApp(
           title: Strings.appTitle,
