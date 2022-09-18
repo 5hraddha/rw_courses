@@ -35,6 +35,12 @@ class _FilterPageState extends State<FilterPage> {
             text: Strings.android,
           ),
           FilterWidget(
+            value: Constants.flutterFilter,
+            groupValue: _filterValue,
+            onChanged: _handleRadioValueChange,
+            text: Strings.flutter,
+          ),
+          FilterWidget(
             value: Constants.sssFilter,
             groupValue: _filterValue,
             onChanged: _handleRadioValueChange,
