@@ -18,7 +18,13 @@ class FilterWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Radio(value: value, groupValue: groupValue, onChanged: onChanged),
+        Radio(
+          value: value,
+          groupValue: groupValue,
+          onChanged: onChanged,
+          fillColor:
+              MaterialStateColor.resolveWith((states) => Colors.green.shade800),
+        ),
         Text(
           text,
           style: const TextStyle(fontSize: 16.0),
